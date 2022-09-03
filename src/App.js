@@ -32,16 +32,13 @@ function App() {
     setPoems(JSON.parse(JSON.stringify({...poems})))
   }
 
-  const getPoems = () => {
-    fetch(`https://poetrydb.org/random/60.json`)
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        poems.all = data;
-        setPoems({...poems});
-        select3();
-      })
-      .catch(err => console.log(err))
+  const getPoems = async () => {
+    const res = await fetch(`https://poetrydb.org/random/60`);
+    const data = await res.json();
+    console.log(data);
+    poems.all = data;
+    setPoems({...poems});
+    select3();
   }
 
   const start = () => {
