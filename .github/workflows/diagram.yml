@@ -3,14 +3,14 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - main
+      - experimental-repo-visualizer
 jobs:
   get_data:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@main
+        uses: actions/checkout@experimental-repo-visualizer
       - name: Update diagram
-        uses: githubocto/repo-visualizer@main
+        uses: githubocto/repo-visualizer@experimental-repo-visualizer
         with:
           excluded_paths: "ignore,.github"
