@@ -1,5 +1,6 @@
 import './App.css';
 import React, {useState} from "react";
+import DataService from "./dataService";
 
 function App() {
 
@@ -33,6 +34,8 @@ function App() {
   }
 
   const getPoems = async () => {
+    let test = await DataService.test()
+    console.log(test.data);
     const res = await fetch(`https://poetrydb.org/random/60`);
     const data = await res.json();
     console.log(data);
