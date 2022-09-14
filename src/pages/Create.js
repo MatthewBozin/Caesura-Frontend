@@ -1,22 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 
-const Create = () => {
-
-  const [poems, setPoems] = useState({
-    all: [],
-    choices: [],
-    poem: []
-  });
+const Create = (props) => {
 
   const select3 = () => {
-    console.log(poems);
     for (let i = 0; i < 3; i++) {
-      poems.choices.push(poems.all.splice(Math.floor(Math.random()*poems.all.length), 1)[0]);
-      console.log(poems.all);
-      console.log(poems.all.length);
+      props.poems.choices.push(props.poems.all.splice(Math.floor(Math.random()*props.poems.all.length), 1)[0]);
     }
-    poems.choices.map((choice) => {
-      console.log(choice);
+    props.poems.choices.map((choice) => {
       let num = Math.floor(Math.random()*choice.lines.length);
       choice.prevLines = [];
       choice.line = choice.lines[num];
@@ -27,7 +17,7 @@ const Create = () => {
       }
       return {...choice}
     })
-    setPoems(JSON.parse(JSON.stringify({...poems})))
+    props.setPoems(JSON.parse(JSON.stringify({...props.poems})))
   }
 
   const getPoems = async () => {
@@ -35,30 +25,28 @@ const Create = () => {
     // console.log(test.data);
     const res = await fetch(`https://poetrydb.org/random/60`);
     const data = await res.json();
-    console.log(data);
-    poems.all = data;
-    setPoems({...poems});
+    props.poems.all = data;
+    props.setPoems({...props.poems});
     select3();
   }
 
   const add = (line) => {
-    poems.poem.push(line);
-    poems.choices = [];
+    props.poems.poem.push(line);
+    props.poems.choices = [];
     select3();
   }
 
-  useEffect(() => {
-    console.log("useeffect");
+  if (props.poems.all.length === 0) {
     getPoems();
-  }, [])
+  }
 
   return (
     <div>
       {
-        poems.all.length > 0 &&
+        props.poems.all.length > 0 &&
         <div>
           <section className="container">
-            {poems.choices.map((poem, index) => {
+            {props.poems.choices.map((poem, index) => {
               return (
                 <div onClick={() => {add(poem.line)}} className="poem" key={index}>
                   <h6>from</h6>
@@ -75,11 +63,11 @@ const Create = () => {
           <hr />
         </div>
       }
-      {poems.all.length === 0 && 
+      {props.poems.all.length === 0 && 
         <h2>Your Poem</h2>
       }
       <section className="container final">
-        {poems.poem.map((line, index) => {
+        {props.poems.poem.map((line, index) => {
           return <div key={index}>{line}</div>
         })}
       </section>

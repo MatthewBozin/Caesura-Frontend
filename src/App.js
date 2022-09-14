@@ -10,11 +10,17 @@ function App() {
 
   const [page, setPage] = useState("landing");
 
+  const [poems, setPoems] = useState({
+    all: [],
+    choices: [],
+    poem: []
+  });
+
   return (
     <div>
         <Navbar setPage={setPage} />
         {page === 'landing' && <Landing setPage={setPage}/>}
-        {page === 'create' && <Create />}
+        {page === 'create' && <Create poems={poems} setPoems={setPoems}/>}
         {page === 'login' && <Login />}
         {page === 'signup' && <Signup />}
     </div>
