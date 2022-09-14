@@ -1,8 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { Typography, Card, CardContent, Grid, TextField, Button } from '@mui/material'
+import DataService from "../dataService";
 
 const Login = () => {
-      const defaultValues = {
+
+    useEffect(() => {
+        const getStatus = async () => {
+            const status = await DataService.checkLogin()
+            console.log(status);
+        }
+        getStatus()
+    }, [])
+    
+    const defaultValues = {
       email: "",
       password: "",
     };
@@ -19,13 +29,14 @@ const Login = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        DataService.login(formValues);
         console.log(formValues);
     }
 
     return (
       <Card style={{maxWidth:600, margin:'0 auto', padding: '20px 5px'}}>
           <CardContent>
-              <Typography gutterBottom variant='h5'>Sign Up</Typography>
+              <Typography gutterBottom variant='h5'>Log In</Typography>
               <form onSubmit={handleSubmit}>
                   <Grid container spacing={1}>
                       <Grid xs={12} sm={6} item>

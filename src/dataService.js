@@ -11,9 +11,20 @@ class DataService {
             userName: 'testo',
             email: 'testo@testo.com',
             password: 'testotesto',
-            confirmPassword: 'testotesto',
-            chef: 'on'
+            confirmPassword: 'testotesto'
         })
+    }
+    signup(msg) {
+        return URL.post(`/signup`, msg)
+    }
+    checkLogin(msg) {
+        return URL.get(`/login`, msg)
+    }
+    login(msg) {
+        return URL.post(`/login`, msg)
+    }
+    logout(msg) {
+        return URL.get(`/logout`, msg)
     }
 }
 
