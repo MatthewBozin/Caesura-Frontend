@@ -1,17 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { Typography, Card, CardContent, Grid, TextField, Button } from '@mui/material'
 import DataService from "../dataService";
 
-const Login = () => {
-
-    useEffect(() => {
-        const getStatus = async () => {
-            const status = await DataService.checkLogin()
-            console.log(status);
-        }
-        getStatus()
-    }, [])
-    
+const Login = (props) => {
     const defaultValues = {
       email: "",
       password: "",
@@ -27,10 +18,12 @@ const Login = () => {
       });
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault();
-        DataService.login(formValues);
-        console.log(formValues);
+        const response = await DataService.login(formValues);
+        props.setUser(response.data);
+        props.setPage('landing');
+        console.log(response.data);
     }
 
     return (

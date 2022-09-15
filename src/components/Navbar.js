@@ -1,5 +1,6 @@
 import React from 'react'
 import { AppBar, Toolbar, Typography, Stack, Button} from '@mui/material'
+import dataService from '../dataService'
 
 const Navbar = (props) => {
   return (
@@ -10,8 +11,15 @@ const Navbar = (props) => {
             </Typography>
             <Stack direction='row' spacing='2'>
                 <Button onClick={() => {props.setPage('create')}} color='inherit'>Create</Button>
-                <Button onClick={() => {props.setPage('login')}} color='inherit'>Login</Button>
-                <Button onClick={() => {props.setPage('signup')}} color='inherit'>Signup</Button>
+                {props.user ? (
+                  <Button onClick={() => {props.setUser(null);dataService.logout()}} color='inherit'>Logout</Button>
+                ) : (
+                  <>
+                    <Button onClick={() => {props.setPage('login')}} color='inherit'>Login</Button>
+                    <Button onClick={() => {props.setPage('signup')}} color='inherit'>Signup</Button>
+                  </>
+                )}
+                
             </Stack>
         </Toolbar>
     </AppBar>
