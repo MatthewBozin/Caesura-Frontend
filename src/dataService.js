@@ -7,14 +7,6 @@ const URL = axios.create({
 })
 
 class DataService {
-    test() {
-        return URL.post(`/signup`, {
-            userName: 'testo',
-            email: 'testo@testo.com',
-            password: 'testotesto',
-            confirmPassword: 'testotesto'
-        })
-    }
     signup(msg) {
         return URL.post(`/signup`, msg)
     }
