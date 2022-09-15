@@ -24,8 +24,8 @@ class DataService {
     login(msg) {
         return URL.post(`/login`, msg)
     }
-    logout(msg) {
-        return URL.get(`/logout`, msg)
+    logout() {
+        return URL.get(`/logout`)
     }
 }
 

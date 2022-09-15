@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Typography, Card, CardContent, Grid, TextField, Button } from '@mui/material'
 import DataService from "../dataService";
 
-const Login = () => {
+const Login = (props) => {
     const defaultValues = {
       email: "",
       password: "",
@@ -21,6 +21,8 @@ const Login = () => {
     const handleSubmit = async e => {
         e.preventDefault();
         const response = await DataService.login(formValues);
+        props.setUser(response.data);
+        props.setPage('landing');
         console.log(response.data);
     }
 
