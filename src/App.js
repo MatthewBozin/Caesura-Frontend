@@ -10,6 +10,8 @@ function App() {
 
   const [page, setPage] = useState("landing");
 
+  const [user, setUser] = useState(null);
+
   const [poems, setPoems] = useState({
     all: [],
     choices: [],
