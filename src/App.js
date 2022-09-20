@@ -21,12 +21,10 @@ function App() {
     })
   }, [])
 
-  console.log(user);
-
   const [poems, setPoems] = useState({
     all: [],
     choices: [],
-    poem: []
+    poem: {authors: [], lines: []}
   });
 
   return (

@@ -4,14 +4,22 @@ const Create = (props) => {
 
   const select3 = () => {
     for (let i = 0; i < 3; i++) {
+      //splices three randomly selected poems from props.poems.all and pushes them into choices
       props.poems.choices.push(props.poems.all.splice(Math.floor(Math.random()*props.poems.all.length), 1)[0]);
     }
+    //for each poem in choices
     props.poems.choices.map((choice) => {
+      //select a random index from poem.lines.length
       let num = Math.floor(Math.random()*choice.lines.length);
-      choice.prevLines = [];
+      //get the line at index
       choice.line = choice.lines[num];
+      //add break symbol if line is space
       if (choice.line === "") choice.line = "[-]"
       choice.index = num;
+      choice.prevLines = [];
+      //if a line exists i lines before index,
+      //add it to choice.prevLines
+      //do this 5 times
       for (let i = 1; i < 5; i++) {
         if (choice.lines[num - i]) choice.prevLines.unshift(choice.lines[num - i]);
       }
@@ -30,8 +38,9 @@ const Create = (props) => {
     select3();
   }
 
-  const add = (line) => {
-    props.poems.poem.push(line);
+  const add = (line, author) => {
+    props.poems.poem.lines.push(line);
+    props.poems.poem.authors.push(author);
     props.poems.choices = [];
     select3();
   }
@@ -48,7 +57,7 @@ const Create = (props) => {
           <section className="container">
             {props.poems.choices.map((poem, index) => {
               return (
-                <div onClick={() => {add(poem.line)}} className="poem" key={index}>
+                <div onClick={() => {add(poem.line, poem.author)}} className="poem" key={index}>
                   <h6>from</h6>
                   <h3>{poem.title}</h3>
                   <h6>{poem.author}</h6>
@@ -67,7 +76,7 @@ const Create = (props) => {
         <h2>Your Poem</h2>
       }
       <section className="container final">
-        {props.poems.poem.map((line, index) => {
+        {props.poems.poem.lines.map((line, index) => {
           return <div key={index}>{line}</div>
         })}
       </section>
