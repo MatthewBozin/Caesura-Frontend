@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     dataService.checkLogin().then((res) => {
       console.log(res.data);
-      if (res.message === 'Not logged in.') return;
+      if (res.data.message === 'Not logged in.') return;
       setUser(res.data)
     })
   }, [])
