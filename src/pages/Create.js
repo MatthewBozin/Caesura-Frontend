@@ -1,6 +1,14 @@
 import React from "react";
+import { Button } from '@mui/material'
+import DataService from "../dataService";
 
 const Create = (props) => {
+
+  const handleSubmit = async e => {
+      e.preventDefault();
+      console.log(props.poems.poem)
+      await DataService.createPoem(props.poems.poem);
+  }
 
   const select3 = () => {
     for (let i = 0; i < 3; i++) {
@@ -72,7 +80,7 @@ const Create = (props) => {
           <hr />
         </div>
       }
-      {props.poems.all.length === 0 && 
+      {props.poems.all.length !== 0 && 
         <h2>Your Poem</h2>
       }
       <section className="container final">
@@ -80,6 +88,9 @@ const Create = (props) => {
           return <div key={index}>{line}</div>
         })}
       </section>
+      {props.poems.all.length !== 0 && 
+        <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
+      }
     </div>
   )
 }
