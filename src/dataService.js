@@ -19,6 +19,9 @@ class DataService {
     logout() {
         return URL.get(`/logout`)
     }
+    createPoem(msg) {
+        return URL.post(`/poems/createPoem`, msg)
+    }
 }
 
 export default new DataService();
