@@ -19,6 +19,12 @@ class DataService {
     logout() {
         return URL.get(`/logout`)
     }
+    getPoems() {
+        return URL.post(`/poems/`)
+    }
+    getFeed() {
+        return URL.get(`/poems/getFeed`)
+    }
     createPoem(msg) {
         return URL.post(`/poems/createPoem`, msg)
     }
