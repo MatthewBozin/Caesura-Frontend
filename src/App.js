@@ -33,7 +33,7 @@ function App() {
         <Navbar setPage={setPage} user={user} setUser={setUser}/>
         {page === 'landing' && <Landing user={user} setPage={setPage}/>}
         {page === 'feed' && <Feed setPage={setPage}/>}
-        {page === 'create' && <Create user={user} poems={poems} setPoems={setPoems}/>}
+        {page === 'create' && <Create setPage={setPage} user={user} poems={poems} setPoems={setPoems}/>}
         {page === 'login' && <Login setUser={setUser} setPage={setPage}/>}
         {page === 'signup' && <Signup />}
     </div>

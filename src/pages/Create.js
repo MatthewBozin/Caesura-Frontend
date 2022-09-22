@@ -9,6 +9,13 @@ const Create = (props) => {
       console.log(props.poems.poem)
       let msg = props.poems.poem;
       msg.userName = props.user.userName;
+      msg.authors = [...new Set(msg.authors)];
+      props.setPage('feed')
+      props.setPoems({
+        all: [],
+        choices: [],
+        poem: {authors: [], lines: []}
+      })
       await DataService.createPoem(msg);
   }
 
