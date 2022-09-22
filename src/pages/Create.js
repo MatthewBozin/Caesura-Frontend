@@ -7,7 +7,9 @@ const Create = (props) => {
   const handleSubmit = async e => {
       e.preventDefault();
       console.log(props.poems.poem)
-      await DataService.createPoem(props.poems.poem);
+      let msg = props.poems.poem;
+      msg.userName = props.user.userName;
+      await DataService.createPoem(msg);
   }
 
   const select3 = () => {
