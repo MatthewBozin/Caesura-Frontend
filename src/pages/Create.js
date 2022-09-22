@@ -7,7 +7,16 @@ const Create = (props) => {
   const handleSubmit = async e => {
       e.preventDefault();
       console.log(props.poems.poem)
-      await DataService.createPoem(props.poems.poem);
+      let msg = props.poems.poem;
+      msg.userName = props.user.userName;
+      msg.authors = [...new Set(msg.authors)];
+      props.setPage('feed')
+      props.setPoems({
+        all: [],
+        choices: [],
+        poem: {authors: [], lines: []}
+      })
+      await DataService.createPoem(msg);
   }
 
   const select3 = () => {
