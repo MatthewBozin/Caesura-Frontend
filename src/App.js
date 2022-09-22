@@ -6,6 +6,7 @@ import Landing from './pages/Landing.js';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Feed from './pages/Feed';
+import Profile from './pages/Profile';
 import dataService from './dataService';
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
         <Navbar setPage={setPage} user={user} setUser={setUser}/>
         {page === 'landing' && <Landing user={user} setPage={setPage}/>}
         {page === 'feed' && <Feed setPage={setPage}/>}
+        {page === 'profile' && <Profile />}
         {page === 'create' && <Create setPage={setPage} user={user} poems={poems} setPoems={setPoems}/>}
         {page === 'login' && <Login setUser={setUser} setPage={setPage}/>}
         {page === 'signup' && <Signup />}

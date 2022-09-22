@@ -20,7 +20,7 @@ class DataService {
         return URL.get(`/logout`)
     }
     getPoems() {
-        return URL.post(`/poems/`)
+        return URL.get(`/poems/`)
     }
     getFeed() {
         return URL.get(`/poems/getFeed`)

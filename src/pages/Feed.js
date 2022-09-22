@@ -14,7 +14,7 @@ const Feed = () => {
 
   return (
     <div>
-        {feed && feed.map((poem, i) => <Poem poem={poem} key={i} />)}
+        {feed && feed.map((poem, i) => <Poem poem={poem} page={'feed'} key={i} />)}
     </div>
   )
 }
