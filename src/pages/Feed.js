@@ -17,8 +17,8 @@ const Profile = () => {
   return (
     <div>
         {feed && feed.map((poem) => {
-            return poem.lines.map((line) => {
-                return <div>{line}</div>
+            return poem.lines.map((line, i) => {
+                return <div key={i}>{line}</div>
             })
         })}
     </div>
