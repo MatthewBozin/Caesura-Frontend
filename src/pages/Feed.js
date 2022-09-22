@@ -1,28 +1,22 @@
 import React, {useState, useEffect} from "react";
 import dataService from '../dataService';
+import Poem from "../components/Poem";
 
-const Profile = () => {
+const Feed = () => {
 
   const [feed, setFeed] = useState(null);
 
   useEffect(() => {
     dataService.getFeed().then((res) => {
-      console.log(res.data);
       setFeed(res.data.poems)
     })
   }, [])
 
-  console.log(feed)
-
   return (
     <div>
-        {feed && feed.map((poem) => {
-            return poem.lines.map((line, i) => {
-                return <div key={i}>{line}</div>
-            })
-        })}
+        {feed && feed.map((poem, i) => <Poem poem={poem} key={i} />)}
     </div>
   )
 }
 
-export default Profile
+export default Feed
