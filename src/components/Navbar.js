@@ -14,7 +14,12 @@ const Navbar = (props) => {
                   <>
                     <Button onClick={() => {props.setPage('create')}} color='inherit'>Create</Button>
                     <Button onClick={() => {props.setPage('feed')}} color='inherit'>Feed</Button>
-                    <Button onClick={() => {props.setUser(null);dataService.logout()}} color='inherit'>Logout</Button>
+                    <Button onClick={() => {props.setPage('profile')}} color='inherit'>Profile</Button>
+                    <Button onClick={() => {
+                      props.setUser(null)
+                      props.setPage('landing')
+                      dataService.logout()
+                    }} color='inherit'>Logout</Button>
                   </>
                 ) : (
                   <>
