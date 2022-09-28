@@ -67,7 +67,7 @@ const Create = (props) => {
   }
 
   return (
-    <div>
+    <div className="App">
       {
         props.poems.all.length > 0 &&
         <div>
