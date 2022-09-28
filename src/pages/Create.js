@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { Button, CircularProgress } from '@mui/material'
 import DataService from "../dataService";
 
 const Create = (props) => {
 
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(props.poems.all.length === 0)
 
   const handleSubmit = async e => {
       e.preventDefault();
@@ -66,13 +66,9 @@ const Create = (props) => {
     select3();
   }
 
-  useEffect(() => {
-    if (props.poems.all.length === 0) {
+  if (props.poems.all.length === 0) {
     getPoems();
-    } else {
-      setLoading(false);
-    }
-  }, [])
+  }
 
   return (
     <>
