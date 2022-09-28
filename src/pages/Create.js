@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Button, CircularProgress } from '@mui/material'
 import DataService from "../dataService";
 
@@ -48,7 +48,7 @@ const Create = (props) => {
   }
 
   const getPoems = async () => {
-    const res = await fetch(`https://poetrydb.org/random/6`);
+    const res = await fetch(`https://poetrydb.org/random/30`);
     const data = await res.json();
     props.poems.all = data;
     props.setPoems({...props.poems});
@@ -56,16 +56,23 @@ const Create = (props) => {
     select3();
   }
 
-  const add = (line, author) => {
+  const add = async (line, author) => {
+    if (props.poems.all.length === 3) {
+      await getPoems();
+    }
     props.poems.poem.lines.push(line);
     props.poems.poem.authors.push(author);
     props.poems.choices = [];
     select3();
   }
 
-  if (props.poems.all.length === 0) {
+  useEffect(() => {
+    if (props.poems.all.length === 0) {
     getPoems();
-  }
+    } else {
+      setLoading(false);
+    }
+  }, [])
 
   return (
     <>
