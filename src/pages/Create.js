@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import { Button } from '@mui/material'
 import DataService from "../dataService";
 
 const Create = (props) => {
+
+  const [loading, setLoading] = useState(true)
 
   const handleSubmit = async e => {
       e.preventDefault();
@@ -52,6 +54,7 @@ const Create = (props) => {
     const data = await res.json();
     props.poems.all = data;
     props.setPoems({...props.poems});
+    setLoading(false);
     select3();
   }
 
@@ -67,40 +70,46 @@ const Create = (props) => {
   }
 
   return (
-    <div className="App">
-      {
-        props.poems.all.length > 0 &&
-        <div>
-          <section className="container">
-            {props.poems.choices.map((poem, index) => {
-              return (
-                <div onClick={() => {add(poem.line, poem.author)}} className="poem" key={index}>
-                  <h6>from</h6>
-                  <h3>{poem.title}</h3>
-                  <h6>{poem.author}</h6>
-                  {poem.prevLines.map((prevLine, index) => {
-                    return <div className="prevLine" key={index}>{prevLine}</div>
-                  })}
-                  <div>{poem.line}</div>
-                </div>
-              )
+    <>
+      {loading === true ? (
+        <div>Loading Screen</div>
+      ) : (
+        <div className="App">
+          {
+            props.poems.all.length > 0 &&
+            <div>
+              <section className="container">
+                {props.poems.choices.map((poem, index) => {
+                  return (
+                    <div onClick={() => {add(poem.line, poem.author)}} className="poem" key={index}>
+                      <h6>from</h6>
+                      <h3>{poem.title}</h3>
+                      <h6>{poem.author}</h6>
+                      {poem.prevLines.map((prevLine, index) => {
+                        return <div className="prevLine" key={index}>{prevLine}</div>
+                      })}
+                      <div>{poem.line}</div>
+                    </div>
+                  )
+                })}
+              </section>
+              <hr />
+            </div>
+          }
+          {props.poems.all.length !== 0 && 
+            <h2>Your Poem</h2>
+          }
+          <section className="container final">
+            {props.poems.poem.lines.map((line, index) => {
+              return <div key={index}>{line}</div>
             })}
           </section>
-          <hr />
+          {props.poems.all.length !== 0 && 
+            <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
+          }
         </div>
-      }
-      {props.poems.all.length !== 0 && 
-        <h2>Your Poem</h2>
-      }
-      <section className="container final">
-        {props.poems.poem.lines.map((line, index) => {
-          return <div key={index}>{line}</div>
-        })}
-      </section>
-      {props.poems.all.length !== 0 && 
-        <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
-      }
-    </div>
+      )}
+    </>
   )
 }
 
