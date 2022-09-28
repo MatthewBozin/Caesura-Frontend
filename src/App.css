@@ -7,7 +7,7 @@ button {
   padding: 8px;
 }
 
-.App {
+.app {
   text-align: center;
   background-color: #282c34;
   min-height: 100vh;
@@ -19,19 +19,10 @@ button {
   color: white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+.card {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px 5px;
 }
 
 .container {
@@ -39,13 +30,31 @@ button {
   justify-content: center;
 }
 
-.poem {
-  width: 33%;
+.loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #282c34;
 }
 
-.poem:hover {
+.logo:hover {
+  cursor: pointer;
+}
+
+.choice {
+  width: 33%;
+  border: 1px solid #282c34;
+}
+
+.choice:hover {
   border: 1px solid white;
   cursor: pointer;
+}
+
+.poem {
+  max-width: 600;
+  margin: 0 auto;
 }
 
 .prevLine {

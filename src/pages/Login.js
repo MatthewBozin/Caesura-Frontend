@@ -27,8 +27,8 @@ const Login = (props) => {
     }
 
     return (
-        <div className="App">
-          <Card style={{maxWidth:600, margin:'0 auto', padding: '20px 5px'}}>
+        <div className="app">
+          <Card className='card'>
               <CardContent>
                   <Typography gutterBottom variant='h5'>Log In</Typography>
                   <form onSubmit={handleSubmit}>

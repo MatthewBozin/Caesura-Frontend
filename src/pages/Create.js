@@ -1,8 +1,10 @@
-import React from "react";
-import { Button } from '@mui/material'
+import React, {useState} from "react";
+import { Button, CircularProgress } from '@mui/material'
 import DataService from "../dataService";
 
 const Create = (props) => {
+
+  const [loading, setLoading] = useState(props.poems.all.length === 0)
 
   const handleSubmit = async e => {
       e.preventDefault();
@@ -46,16 +48,18 @@ const Create = (props) => {
   }
 
   const getPoems = async () => {
-    // let test = await DataService.test()
-    // console.log(test.data);
-    const res = await fetch(`https://poetrydb.org/random/60`);
+    const res = await fetch(`https://poetrydb.org/random/30`);
     const data = await res.json();
     props.poems.all = data;
     props.setPoems({...props.poems});
+    setLoading(false);
     select3();
   }
 
-  const add = (line, author) => {
+  const add = async (line, author) => {
+    if (props.poems.all.length === 3) {
+      await getPoems();
+    }
     props.poems.poem.lines.push(line);
     props.poems.poem.authors.push(author);
     props.poems.choices = [];
@@ -67,40 +71,48 @@ const Create = (props) => {
   }
 
   return (
-    <div className="App">
-      {
-        props.poems.all.length > 0 &&
-        <div>
-          <section className="container">
-            {props.poems.choices.map((poem, index) => {
-              return (
-                <div onClick={() => {add(poem.line, poem.author)}} className="poem" key={index}>
-                  <h6>from</h6>
-                  <h3>{poem.title}</h3>
-                  <h6>{poem.author}</h6>
-                  {poem.prevLines.map((prevLine, index) => {
-                    return <div className="prevLine" key={index}>{prevLine}</div>
-                  })}
-                  <div>{poem.line}</div>
-                </div>
-              )
+    <>
+      {loading === true ? (
+        <div className="loader">
+          <CircularProgress/>
+        </div>
+      ) : (
+        <div className="app">
+          {
+            props.poems.all.length > 0 &&
+            <div>
+              <section className="container">
+                {props.poems.choices.map((poem, index) => {
+                  return (
+                    <div className="choice" key={index} onClick={() => {add(poem.line, poem.author)}}>
+                      <h6>from</h6>
+                      <h3>{poem.title}</h3>
+                      <h6>{poem.author}</h6>
+                      {poem.prevLines.map((prevLine, index) => {
+                        return <div className="prevLine" key={index}>{prevLine}</div>
+                      })}
+                      <div>{poem.line}</div>
+                    </div>
+                  )
+                })}
+              </section>
+              <hr />
+            </div>
+          }
+          {props.poems.all.length !== 0 && 
+            <h2>Your Poem</h2>
+          }
+          <section className="container final">
+            {props.poems.poem.lines.map((line, index) => {
+              return <div key={index}>{line}</div>
             })}
           </section>
-          <hr />
+          {props.poems.all.length !== 0 && 
+            <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
+          }
         </div>
-      }
-      {props.poems.all.length !== 0 && 
-        <h2>Your Poem</h2>
-      }
-      <section className="container final">
-        {props.poems.poem.lines.map((line, index) => {
-          return <div key={index}>{line}</div>
-        })}
-      </section>
-      {props.poems.all.length !== 0 && 
-        <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
-      }
-    </div>
+      )}
+    </>
   )
 }
 
