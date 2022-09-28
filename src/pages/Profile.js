@@ -12,7 +12,7 @@ const Profile = () => {
   }, [])
 
   return (
-    <div className="App">
+    <div className="app">
         {poems && poems.map((poem, i) => <Poem poem={poem} setPoems={setPoems} page='profile' key={i} />)}
     </div>
   )

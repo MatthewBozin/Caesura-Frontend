@@ -28,7 +28,7 @@ const Signup = () => {
     }
 
     return (
-      <div className="App">
+      <div className="app">
           <Card className='card'>
               <CardContent>
                   <Typography gutterBottom variant='h5'>Sign Up</Typography>

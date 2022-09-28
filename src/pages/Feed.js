@@ -13,7 +13,7 @@ const Feed = () => {
   }, [])
 
   return (
-    <div className="App">
+    <div className="app">
         {feed && feed.map((poem, i) => <Poem poem={poem} page={'feed'} key={i} />)}
     </div>
   )

@@ -74,7 +74,7 @@ const Create = (props) => {
           <CircularProgress/>
         </div>
       ) : (
-        <div className="App">
+        <div className="app">
           {
             props.poems.all.length > 0 &&
             <div>
