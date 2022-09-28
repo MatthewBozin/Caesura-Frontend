@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Button } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import DataService from "../dataService";
 
 const Create = (props) => {
@@ -48,8 +48,6 @@ const Create = (props) => {
   }
 
   const getPoems = async () => {
-    // let test = await DataService.test()
-    // console.log(test.data);
     const res = await fetch(`https://poetrydb.org/random/60`);
     const data = await res.json();
     props.poems.all = data;
@@ -72,7 +70,9 @@ const Create = (props) => {
   return (
     <>
       {loading === true ? (
-        <div>Loading Screen</div>
+        <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <CircularProgress style={{margin:'auto'}}/>
+        </div>
       ) : (
         <div className="App">
           {
