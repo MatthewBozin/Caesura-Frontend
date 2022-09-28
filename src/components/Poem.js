@@ -1,21 +1,23 @@
 import React from 'react'
-import { Typography, Card, CardContent, Grid, TextField, Button } from '@mui/material'
+import { Typography, Card, CardContent } from '@mui/material'
 
 const Poem = (props) => {
   return (
-    <Card style={{maxWidth:600, margin:'0 auto', padding: '20px 5px'}}>
-        <CardContent>
-            {props.page === 'feed' && <Typography gutterBottom variant='h5'>By {props.poem.userName}</Typography>}
+    <Card className="App" variant='outlined' style={{maxWidth:600, margin:'0 auto'}}>
+        <CardContent className="App">
+            {props.page === 'feed' && <Typography align='center' gutterBottom variant='h5'>By {props.poem.userName}</Typography>}
             {props.poem.lines.map((line, i) => {
-                return <div key={i}>{line}</div>
+                return <Typography align='center' key={i}>{line}</Typography>
             })}
             <hr></hr>
-            <div>With some help from:</div>
-            {props.poem.authors.map((author, i) => {
-                return <span key={i}>{i !== 0 && <span>, </span>}{author}</span>
-            })}
+            <Typography align='center'>With some help from:</Typography>
+            <Typography align='center'>
+              {props.poem.authors.map((author, i) => {
+                  return <span key={i}>{i !== 0 && <span>, </span>}{author}</span>
+              })}
+            </Typography>
             <hr></hr>
-            <div>On {props.poem.date}</div>
+            <Typography align='center'>On {props.poem.date}</Typography>
         </CardContent>
     </Card>
   )

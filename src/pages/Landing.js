@@ -2,7 +2,7 @@ import React from 'react'
 
 const Landing = (props) => {
   return (
-    <div className="App">
+    <div>
         <header className="App-header">
           <h1>CAESURA</h1>
           <span>(cae·su·ra, sēˈzyo͝orə): a break or pause in the middle of a verse</span>
