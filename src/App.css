@@ -53,13 +53,19 @@ button {
   background-color: #282c34;
 }
 
-.poem {
+.choice {
   width: 33%;
+  border: 1px solid #282c34;
 }
 
-.poem:hover {
+.choice:hover {
   border: 1px solid white;
   cursor: pointer;
+}
+
+.poem {
+  max-width: 600;
+  margin: 0 auto;
 }
 
 .prevLine {

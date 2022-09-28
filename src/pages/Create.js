@@ -81,7 +81,7 @@ const Create = (props) => {
               <section className="container">
                 {props.poems.choices.map((poem, index) => {
                   return (
-                    <div onClick={() => {add(poem.line, poem.author)}} className="poem" key={index}>
+                    <div className="choice" key={index} onClick={() => {add(poem.line, poem.author)}}>
                       <h6>from</h6>
                       <h3>{poem.title}</h3>
                       <h6>{poem.author}</h6>
