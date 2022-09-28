@@ -48,7 +48,7 @@ const Create = (props) => {
   }
 
   const getPoems = async () => {
-    const res = await fetch(`https://poetrydb.org/random/60`);
+    const res = await fetch(`https://poetrydb.org/random/6`);
     const data = await res.json();
     props.poems.all = data;
     props.setPoems({...props.poems});
@@ -70,8 +70,8 @@ const Create = (props) => {
   return (
     <>
       {loading === true ? (
-        <div style={{height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          <CircularProgress style={{margin:'auto'}}/>
+        <div className="loader">
+          <CircularProgress/>
         </div>
       ) : (
         <div className="App">

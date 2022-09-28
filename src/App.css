@@ -45,6 +45,14 @@ button {
   justify-content: center;
 }
 
+.loader {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #282c34;
+}
+
 .poem {
   width: 33%;
 }
