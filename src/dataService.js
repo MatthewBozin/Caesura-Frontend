@@ -28,6 +28,10 @@ class DataService {
     createPoem(msg) {
         return URL.post(`/poems/createPoem`, msg)
     }
+    deletePoem(msg) {
+        console.log(msg)
+        return URL.post(`/poems/deletePoem`, msg)
+    }
 }
 
 export default new DataService();

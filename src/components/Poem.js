@@ -1,5 +1,6 @@
 import React from 'react'
-import { Typography, Card, CardContent } from '@mui/material'
+import { Button, Typography, Card, CardContent } from '@mui/material'
+import DataService from "../dataService";
 
 const Poem = (props) => {
   return (
@@ -18,6 +19,14 @@ const Poem = (props) => {
             </Typography>
             <hr></hr>
             <Typography align='center'>On {props.poem.date}</Typography>
+            {props.page === 'profile' && <Button variant='contained' color='primary' onClick={() => {
+              DataService.deletePoem({_id: props.poem._id}).then(() => {
+                DataService.getPoems().then((res) => {
+                  props.setPoems(res.data.poems)
+                })
+              })
+              props.setPoems(null)
+            }}>Delete</Button>}
         </CardContent>
     </Card>
   )
