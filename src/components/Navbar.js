@@ -6,7 +6,7 @@ const Navbar = (props) => {
   return (
     <AppBar position='static' color='primary'>
         <Toolbar>
-            <Typography onClick={() => {props.setPage('landing')}} variant='h6' component='div' sx={{flexGrow: 1}}>
+            <Typography className='logo' onClick={() => {props.setPage('landing')}} variant='h6' component='div' sx={{flexGrow: 1}}>
                 CAESURA
             </Typography>
             <Stack direction='row' spacing='2'>

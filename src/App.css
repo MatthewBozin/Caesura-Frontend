@@ -38,6 +38,10 @@ button {
   background-color: #282c34;
 }
 
+.logo:hover {
+  cursor: pointer;
+}
+
 .choice {
   width: 33%;
   border: 1px solid #282c34;
