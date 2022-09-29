@@ -25,12 +25,6 @@ function App() {
     })
   }, [])
 
-  const [poems, setPoems] = useState({
-    all: [],
-    choices: [],
-    poem: {authors: [], lines: []}
-  });
-
   return (
     <>
       {loading === true ? (
@@ -43,7 +37,7 @@ function App() {
           {page === 'landing' && <Landing user={user} setPage={setPage}/>}
           {page === 'feed' && <Feed setPage={setPage}/>}
           {page === 'profile' && <Profile />}
-          {page === 'create' && <Create setPage={setPage} user={user} poems={poems} setPoems={setPoems}/>}
+          {page === 'create' && <Create setPage={setPage} user={user}/>}
           {page === 'login' && <Login setUser={setUser} setPage={setPage}/>}
           {page === 'signup' && <Signup />}
         </div>

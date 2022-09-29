@@ -4,16 +4,22 @@ import DataService from "../dataService";
 
 const Create = (props) => {
 
-  const [loading, setLoading] = useState(props.poems.all.length === 0)
+  const [poems, setPoems] = useState({
+    all: [],
+    choices: [],
+    poem: {authors: [], lines: []}
+  });
+
+  const [loading, setLoading] = useState(poems.all.length === 0)
 
   const handleSubmit = async e => {
       e.preventDefault();
-      console.log(props.poems.poem)
-      let msg = props.poems.poem;
+      console.log(poems.poem)
+      let msg = poems.poem;
       msg.userName = props.user.userName;
       msg.authors = [...new Set(msg.authors)];
       props.setPage('feed')
-      props.setPoems({
+      setPoems({
         all: [],
         choices: [],
         poem: {authors: [], lines: []}
@@ -23,11 +29,11 @@ const Create = (props) => {
 
   const select3 = () => {
     for (let i = 0; i < 3; i++) {
-      //splices three randomly selected poems from props.poems.all and pushes them into choices
-      props.poems.choices.push(props.poems.all.splice(Math.floor(Math.random()*props.poems.all.length), 1)[0]);
+      //splices three randomly selected poems from poems.all and pushes them into choices
+      poems.choices.push(poems.all.splice(Math.floor(Math.random()*poems.all.length), 1)[0]);
     }
     //for each poem in choices
-    props.poems.choices.map((choice) => {
+    poems.choices.map((choice) => {
       //select a random index from poem.lines.length
       let num = Math.floor(Math.random()*choice.lines.length);
       //get the line at index
@@ -44,29 +50,29 @@ const Create = (props) => {
       }
       return {...choice}
     })
-    props.setPoems(JSON.parse(JSON.stringify({...props.poems})))
+    setPoems(JSON.parse(JSON.stringify({...poems})))
   }
 
   const getPoems = async () => {
     const res = await fetch(`https://poetrydb.org/random/30`);
     const data = await res.json();
-    props.poems.all = data;
-    props.setPoems({...props.poems});
+    poems.all = data;
+    setPoems({...poems});
     setLoading(false);
     select3();
   }
 
   const add = async (line, author) => {
-    if (props.poems.all.length === 3) {
+    if (poems.all.length === 3) {
       await getPoems();
     }
-    props.poems.poem.lines.push(line);
-    props.poems.poem.authors.push(author);
-    props.poems.choices = [];
+    poems.poem.lines.push(line);
+    poems.poem.authors.push(author);
+    poems.choices = [];
     select3();
   }
 
-  if (props.poems.all.length === 0) {
+  if (poems.all.length === 0) {
     getPoems();
   }
 
@@ -78,11 +84,9 @@ const Create = (props) => {
         </div>
       ) : (
         <div className="app">
-          {
-            props.poems.all.length > 0 &&
             <div>
               <section className="container">
-                {props.poems.choices.map((poem, index) => {
+                {poems.choices.map((poem, index) => {
                   return (
                     <div className="choice" key={index} onClick={() => {add(poem.line, poem.author)}}>
                       <h6>from</h6>
@@ -98,16 +102,15 @@ const Create = (props) => {
               </section>
               <hr />
             </div>
-          }
-          {props.poems.all.length !== 0 && 
+          {poems.all.length !== 0 && 
             <h2>Your Poem</h2>
           }
           <section className="container final">
-            {props.poems.poem.lines.map((line, index) => {
+            {poems.poem.lines.map((line, index) => {
               return <div key={index}>{line}</div>
             })}
           </section>
-          {props.poems.all.length !== 0 && 
+          {poems.all.length !== 0 && 
             <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
           }
         </div>
