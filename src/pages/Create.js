@@ -27,7 +27,7 @@ const Create = (props) => {
         all: [],
         choices: [],
         titles: [],
-        poem: {authors: [], lines: []}
+        poem: {authors: [], lines: [], title: ''}
       })
       await DataService.createPoem(msg);
   }
