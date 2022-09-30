@@ -12,18 +12,20 @@ const Create = (props) => {
 
   const [step, setStep] = useState('poem')
 
+  const [allTitles, setAllTitles] = useState([])
+
   const [activeTitles, setActiveTitles] = useState([])
 
   const [loading, setLoading] = useState(poems.all.length === 0)
 
   const handleSubmit = async e => {
       e.preventDefault();
-      console.log(props.poems.poem)
-      let msg = props.poems.poem;
+      setStep('poem')
+      let msg = poems.poem;
       msg.userName = props.user.userName;
       msg.authors = [...new Set(msg.authors)];
       props.setPage('feed')
-      props.setPoems({
+      setPoems({
         all: [],
         choices: [],
         titles: [],
@@ -32,15 +34,20 @@ const Create = (props) => {
       await DataService.createPoem(msg);
   }
 
-  const select3 = () => {
-    for (let i = 0; i < 3; i++) {
-      //splices three randomly selected poems from props.poems.all and pushes them into choices
-      props.poems.choices.push(props.poems.all.splice(Math.floor(Math.random()*props.poems.all.length), 1)[0]);
+  const select = (from, to, times) => {
+    for (let i = 0; i < times; i++) {
+      to.push(from.splice(Math.floor(Math.random() * from.length), 1)[0]);
     }
+  }
+
+  const selectPoems = () => {
+    //splices three randomly selected poems from poems.all and pushes them into choices
+    select(poems.all, poems.choices, 3)
+    console.log(poems.all.length)
     //for each poem in choices
-    props.poems.choices.map((choice) => {
+    poems.choices.map((choice) => {
       //select a random index from poem.lines.length
-      let num = Math.floor(Math.random()*choice.lines.length);
+      let num = Math.floor(Math.random() * choice.lines.length);
       //get the line at index
       choice.line = choice.lines[num];
       //add break symbol if line is space
@@ -55,16 +62,16 @@ const Create = (props) => {
       }
       return {...choice}
     })
-    props.setPoems(JSON.parse(JSON.stringify({...props.poems})))
+    setPoems(JSON.parse(JSON.stringify({...poems})))
   }
 
   const getPoems = async () => {
     const res = await fetch(`https://poetrydb.org/random/30`);
     const data = await res.json();
-    props.poems.all = data;
-    props.setPoems({...props.poems});
+    poems.all = data;
+    setPoems({...poems});
     setLoading(false);
-    select3();
+    selectPoems();
   }
 
   const add = async (line, author, title) => {
@@ -73,14 +80,22 @@ const Create = (props) => {
     }
     poems.poem.lines.push(line);
     poems.poem.authors.push(author);
-    setActiveTitles([...activeTitles, ...title.split(' ')])
+    setAllTitles([...allTitles, ...title.split(' ')])
     poems.choices = [];
-    select3();
+    selectPoems();
+  }
+
+  const resetTitles = () => {
+    let newTitles = []
+    select(allTitles, newTitles, 5)
+    setAllTitles([...allTitles])
+    setActiveTitles([...newTitles])
   }
 
   const addToTitle = (word) => {
     poems.poem.title += word + ' '
     setPoems({...poems})
+    resetTitles()
   }
 
   if (poems.all.length === 0) {
@@ -123,22 +138,22 @@ const Create = (props) => {
               )}
               <hr />
             </div>
-          {props.poems.all.length !== 0 && 
+          {poems.all.length !== 0 && 
             <h3>Your Poem</h3>
           }
           {step === 'title' && (
             <h3>{poems.poem.title}</h3>
           )}
           <section className="container final">
-            {props.poems.poem.lines.map((line, index) => {
+            {poems.poem.lines.map((line, index) => {
               return <div key={index}>{line}</div>
             })}
           </section>
           {step === 'poem' && 
-            <Button onClick={() => {setStep('title')}} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
+            <Button onClick={() => {resetTitles();setStep('title')}} type='submit' variant='contained' color='primary' fullWidth>Build Title</Button>
           }
           {step === 'title' && 
-            <Button onClick={() => {setStep('poem');handleSubmit()}} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
+            <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
           }
         </div>
       )}
