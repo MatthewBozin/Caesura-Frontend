@@ -7,14 +7,20 @@ const Create = (props) => {
   const [poems, setPoems] = useState({
     all: [],
     choices: [],
-    poem: {authors: [], lines: []}
+    poem: {authors: [], lines: [], title: ''}
   });
+
+  const [step, setStep] = useState('poem')
+
+  const [allTitles, setAllTitles] = useState([])
+
+  const [activeTitles, setActiveTitles] = useState([])
 
   const [loading, setLoading] = useState(poems.all.length === 0)
 
   const handleSubmit = async e => {
       e.preventDefault();
-      console.log(poems.poem)
+      setStep('poem')
       let msg = poems.poem;
       msg.userName = props.user.userName;
       msg.authors = [...new Set(msg.authors)];
@@ -22,20 +28,26 @@ const Create = (props) => {
       setPoems({
         all: [],
         choices: [],
-        poem: {authors: [], lines: []}
+        titles: [],
+        poem: {authors: [], lines: [], title: ''}
       })
       await DataService.createPoem(msg);
   }
 
-  const select3 = () => {
-    for (let i = 0; i < 3; i++) {
-      //splices three randomly selected poems from poems.all and pushes them into choices
-      poems.choices.push(poems.all.splice(Math.floor(Math.random()*poems.all.length), 1)[0]);
+  const select = (from, to, times) => {
+    for (let i = 0; i < times; i++) {
+      to.push(from.splice(Math.floor(Math.random() * from.length), 1)[0]);
     }
+  }
+
+  const selectPoems = () => {
+    //splices three randomly selected poems from poems.all and pushes them into choices
+    select(poems.all, poems.choices, 3)
+    console.log(poems.all.length)
     //for each poem in choices
     poems.choices.map((choice) => {
       //select a random index from poem.lines.length
-      let num = Math.floor(Math.random()*choice.lines.length);
+      let num = Math.floor(Math.random() * choice.lines.length);
       //get the line at index
       choice.line = choice.lines[num];
       //add break symbol if line is space
@@ -59,17 +71,31 @@ const Create = (props) => {
     poems.all = data;
     setPoems({...poems});
     setLoading(false);
-    select3();
+    selectPoems();
   }
 
-  const add = async (line, author) => {
+  const add = async (line, author, title) => {
     if (poems.all.length === 3) {
       await getPoems();
     }
     poems.poem.lines.push(line);
     poems.poem.authors.push(author);
+    setAllTitles([...allTitles, ...title.split(' ')])
     poems.choices = [];
-    select3();
+    selectPoems();
+  }
+
+  const resetTitles = () => {
+    let newTitles = []
+    select(allTitles, newTitles, 5)
+    setAllTitles([...allTitles])
+    setActiveTitles([...newTitles])
+  }
+
+  const addToTitle = (word) => {
+    poems.poem.title += word + ' '
+    setPoems({...poems})
+    resetTitles()
   }
 
   if (poems.all.length === 0) {
@@ -84,33 +110,49 @@ const Create = (props) => {
         </div>
       ) : (
         <div className="app">
+          <h2>Build Your Poem</h2>
             <div>
-              <section className="container">
-                {poems.choices.map((poem, index) => {
-                  return (
-                    <div className="choice" key={index} onClick={() => {add(poem.line, poem.author)}}>
-                      <h6>from</h6>
-                      <h3>{poem.title}</h3>
-                      <h6>{poem.author}</h6>
-                      {poem.prevLines.map((prevLine, index) => {
-                        return <div className="prevLine" key={index}>{prevLine}</div>
-                      })}
-                      <div>{poem.line}</div>
-                    </div>
-                  )
-                })}
-              </section>
+              {step === 'poem' && (
+                <section className="container">
+                  {poems.choices.map((poem, index) => {
+                    return (
+                      <div className="choice" key={index} onClick={() => {add(poem.line, poem.author, poem.title)}}>
+                        <h6>from</h6>
+                        <h3>{poem.title}</h3>
+                        <h6>{poem.author}</h6>
+                        {poem.prevLines.map((prevLine, index) => {
+                          return <div className="prevLine" key={index}>{prevLine}</div>
+                        })}
+                        <div>{poem.line}</div>
+                      </div>
+                    )
+                  })}
+                </section>
+              )}
+              {step === 'title' && (
+                <section className="container">
+                  {activeTitles.map((word, index) => {
+                    return <Button onClick={() => {addToTitle(word)}} key={index} type='submit' variant='contained' color='primary' fullWidth>{word}</Button>
+                  })}
+                </section>
+              )}
               <hr />
             </div>
           {poems.all.length !== 0 && 
-            <h2>Your Poem</h2>
+            <h3>Your Poem</h3>
           }
+          {step === 'title' && (
+            <h3>{poems.poem.title}</h3>
+          )}
           <section className="container final">
             {poems.poem.lines.map((line, index) => {
               return <div key={index}>{line}</div>
             })}
           </section>
-          {poems.all.length !== 0 && 
+          {step === 'poem' && 
+            <Button onClick={() => {resetTitles();setStep('title')}} type='submit' variant='contained' color='primary' fullWidth>Build Title</Button>
+          }
+          {step === 'title' && 
             <Button onClick={handleSubmit} type='submit' variant='contained' color='primary' fullWidth>Create</Button>
           }
         </div>
