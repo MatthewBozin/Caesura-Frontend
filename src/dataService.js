@@ -2,7 +2,7 @@ import axios from "axios";
 
 const URL = axios.create({
     withCredentials: true,
-    baseURL: "http://localhost:8000",
+    baseURL: process.env.REACT_APP_URL,
     headers: {"Content-type": "application/json"}
 })
 
